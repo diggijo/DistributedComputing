@@ -1,0 +1,17 @@
+@startuml
+participant Client
+participant ClientHelper
+participant Server
+
+Client -> ClientHelper: sendMessage("logon <username> <password>")
+activate ClientHelper
+ClientHelper -> Server: "logon <username> <password>"
+activate Server
+Server --> ClientHelper: Authentication response
+deactivate Server
+deactivate ClientHelper
+
+ClientHelper -> Client: Return authentication response
+deactivate ClientHelper
+
+@enduml

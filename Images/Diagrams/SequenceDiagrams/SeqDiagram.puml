@@ -1,0 +1,60 @@
+@startuml
+participant Client
+participant ClientHelper
+participant Server
+
+Client -> ClientHelper: connect(serverAddress, port)
+activate ClientHelper
+ClientHelper -> Server: TLS handshake
+activate Server
+Server --> ClientHelper: Connection established
+deactivate Server
+deactivate ClientHelper
+
+ClientHelper -> Client: Return connection established
+deactivate ClientHelper
+
+Client -> ClientHelper: sendMessage("logon <username> <password>")
+activate ClientHelper
+ClientHelper -> Server: "logon <username> <password>"
+activate Server
+Server --> ClientHelper: Authentication response
+deactivate Server
+deactivate ClientHelper
+
+ClientHelper -> Client: Return authentication response
+deactivate ClientHelper
+
+loop Interaction Loop
+    Client -> ClientHelper: sendMessage(command)
+    activate ClientHelper
+    ClientHelper -> Server: command
+    activate Server
+    Server --> ClientHelper: Response
+    deactivate Server
+    deactivate ClientHelper
+
+    ClientHelper -> Client: Return response
+    deactivate ClientHelper
+end
+
+Client -> ClientHelper: sendMessage("logoff")
+activate ClientHelper
+ClientHelper -> Server: "logoff"
+activate Server
+Server --> ClientHelper: Logoff response
+deactivate Server
+deactivate ClientHelper
+
+ClientHelper -> Client: Return logoff response
+deactivate ClientHelper
+
+Client -> ClientHelper: disconnect()
+activate ClientHelper
+ClientHelper -> Server: Close connection
+deactivate ClientHelper
+
+ClientHelper -> Client: Return connection closed
+deactivate ClientHelper
+
+@enduml
