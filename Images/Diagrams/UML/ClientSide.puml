@@ -1,0 +1,43 @@
+@startuml
+class Client {
+    - serverAddress: String
+    - port: int
+    + main(String[]): void
+}
+
+Client --> Socket
+
+class ClientHelper {
+    - socket: Socket
+    - out: PrintWriter
+    - in: BufferedReader
+    + connect(String, int): void
+    + sendMessage(String): void
+    + receiveMessage(): String
+    + disconnect(): void
+}
+
+Client --> ClientHelper
+
+class SSLContext {
+    + getInstance(String): SSLContext
+    + getSocketFactory(): SSLSocketFactory
+}
+
+ClientHelper --> SSLContext
+
+class SSLSocketFactory {
+    + createSocket(String, int): SSLSocket
+}
+
+SSLContext --> SSLSocketFactory
+
+class SSLSocket {
+    - socket: Socket
+    + getOutputStream(): OutputStream
+    + getInputStream(): InputStream
+    + close(): void
+}
+
+SSLSocketFactory --> SSLSocket
+@enduml

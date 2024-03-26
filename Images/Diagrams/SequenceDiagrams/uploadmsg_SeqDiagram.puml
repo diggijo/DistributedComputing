@@ -1,0 +1,17 @@
+@startuml
+participant Client
+participant ClientHelper
+participant Server
+
+Client -> ClientHelper: sendMessage("uploadmsg <message>")
+activate ClientHelper
+ClientHelper -> Server: "uploadmsg <message>"
+activate Server
+Server --> ClientHelper: Response
+deactivate Server
+deactivate ClientHelper
+
+ClientHelper -> Client: Return response
+deactivate ClientHelper
+
+@enduml

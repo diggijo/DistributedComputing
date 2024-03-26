@@ -1,0 +1,20 @@
+@startuml
+participant ClientGUI
+participant ClientHelper
+participant Server
+
+
+ClientGUI -> ClientHelper: Connect(serverAddress, port)
+activate ClientHelper
+ClientHelper -> Server: Establish connection
+activate Server
+Server --> ClientHelper: Connection established
+deactivate Server
+ClientHelper --> ClientGUI: Connection successful
+ClientGUI -> ClientHelper: SendMessage(command)
+activate ClientHelper
+ClientHelper -> Server: SendCommand(command)
+Server --> ClientHelper: Process command
+ClientHelper --> ClientGUI: ReceiveResponse(response)
+deactivate ClientHelper
+@enduml

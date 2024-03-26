@@ -1,0 +1,17 @@
+@startuml
+participant Client
+participant ClientHelper
+participant Server
+
+Client -> ClientHelper: sendMessage("logoff")
+activate ClientHelper
+ClientHelper -> Server: "logoff"
+activate Server
+Server --> ClientHelper: Logoff response
+deactivate Server
+deactivate ClientHelper
+
+ClientHelper -> Client: Return logoff response
+deactivate ClientHelper
+
+@enduml

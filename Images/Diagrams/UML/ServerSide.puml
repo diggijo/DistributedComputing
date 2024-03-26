@@ -1,0 +1,49 @@
+@startuml
+class Server {
+    - DEFAULT_PORT: int
+    - messages: List<String>
+    - USERNAME: String
+    - PASSWORD: String
+    + main(String[]): void
+    - handleClient(Socket): void
+}
+
+Server --> Socket
+
+class ClientHandler {
+    <<Thread>>
+    - clientSocket: Socket
+    + run(): void
+}
+
+Server --> ClientHandler
+
+class SSLContext {
+    + getInstance(String): SSLContext
+    + getServerSocketFactory(): SSLServerSocketFactory
+}
+
+Server --> SSLContext
+
+class SSLServerSocketFactory {
+    + createServerSocket(int): SSLServerSocket
+}
+
+SSLContext --> SSLServerSocketFactory
+
+class SSLServerSocket {
+    - serverSocket: ServerSocket
+    + accept(): SSLSocket
+}
+
+SSLServerSocketFactory --> SSLServerSocket
+
+class SSLSocket {
+    - socket: Socket
+    + getOutputStream(): OutputStream
+    + getInputStream(): InputStream
+    + close(): void
+}
+
+SSLServerSocket --> SSLSocket
+@enduml

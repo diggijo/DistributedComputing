@@ -1,0 +1,14 @@
+@startuml
+actor User
+participant ClientGUI
+
+User -> ClientGUI: Provide server address, port
+activate ClientGUI
+ClientGUI -> ClientGUI: Validate input
+alt Valid input
+    ClientGUI -> ClientGUI: Display connection attempt
+    ClientGUI -> ClientGUI: Display command options
+else Invalid input
+    ClientGUI -> ClientGUI: Display error message
+end
+@enduml
